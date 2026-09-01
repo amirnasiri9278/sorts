@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>مرتب‌سازی نزولی با انیمیشن</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      direction: rtl;
+      text-align: center;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 10px;
+      margin-top: 40px;
+      height: 300px;
+    }
+    .bar {
+      width: 40px;
+      background-color: steelblue;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      transition: all 0.5s;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>مرتب‌سازی نزولی (Bubble Sort)</h1>
+<div class="container" id="barContainer"></div>
+<button onclick="startSort()">شروع مرتب‌سازی</button>
+
+<script>
+ 
+  const numbers = [45, 96, 17, 34, 5, 12, 85, 101];
+  const container = document.getElementById("barContainer");
+
+  function renderBars(arr) {
+    container.innerHTML = "";
+    arr.forEach(num => {
+      const bar = document.createElement("div");
+      bar.className = "bar";
+      bar.style.height = (num * 2) + "px"; 
+      bar.textContent = num;
+      container.appendChild(bar);
+    });
+  }
+
+  async function startSort() {
+    let arr = [...numbers];
+    let n = arr.length;
+    renderBars(arr);
+
+    for (let i = 0; i < n - 1; i++) {
+      for (let j = 0; j < n - i - 1; j++) {
+        if (arr[j] < arr[j + 1]) {
+          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+          renderBars(arr);
+          await delay(700);
+        }
+      }
+    }
+  }
+
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  renderBars(numbers);
+</script>
+
+</body>
+</html>
