@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <title>مرتب‌سازی سریع (Quick Sort) نزولی</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      direction: rtl;
+      text-align: center;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 10px;
+      margin-top: 40px;
+      height: 300px;
+    }
+    .bar {
+      width: 40px;
+      background-color: #8e44ad;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      transition: all 0.4s ease;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>مرتب‌سازی سریع (Quick Sort) نزولی</h1>
+<div class="container" id="barContainer"></div>
+<button onclick="startQuickSort()">شروع مرتب‌سازی</button>
+
+<script>
+  const numbers = [45, 96, 17, 34, 5, 12, 85, 101];
+  const container = document.getElementById("barContainer");
+
+  function renderBars(arr) {
+    container.innerHTML = "";
+    arr.forEach(num => {
+      const bar = document.createElement("div");
+      bar.className = "bar";
+      bar.style.height = (num * 2) + "px";
+      bar.textContent = num;
+      container.appendChild(bar);
+    });
+  }
+
+  async function quickSort(arr, left = 0, right = arr.length - 1) {
+    if (left < right) {
+      let pivotIndex = await partition(arr, left, right);
+      await quickSort(arr, left, pivotIndex - 1);
+      await quickSort(arr, pivotIndex + 1, right);
+    }
+    return arr;
+  }
+
+  async function partition(arr, left, right) {
+    let pivot = arr[right];
+    let i = left - 1;
+    for (let j = left; j < right; j++) {
+      if (arr[j] > pivot) {
+        i++;
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+        renderBars(arr);
+        await delay(500);
+      }
+    }
+    [arr[i + 1], arr[right]] = [arr[right], arr[i + 1]];
+    renderBars(arr);
+    await delay(500);
+    return i + 1;
+  }
+
+  async function startQuickSort() {
+    let arrCopy = [...numbers];
+    await quickSort(arrCopy);
+    console.log("مرتب‌شده:", arrCopy);
+  }
+
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  renderBars(numbers);
+</script>
+
+</body>
+</html>
